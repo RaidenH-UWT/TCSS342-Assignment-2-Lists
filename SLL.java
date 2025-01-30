@@ -69,7 +69,6 @@ public class SLL<T> {
             addFront(theValue);
         } else if (theIndex >= COUNT) {
             // check if the index is out of bounds for our size
-            // TODO: ask if this case should also just call addRear()
             throw new IndexOutOfBoundsException("Index " + theIndex + " out of bounds for length " + COUNT);
         } else {
             Node current = HEAD;

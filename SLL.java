@@ -31,7 +31,6 @@ public class SLL<T> {
         if (isEmpty()) {
             addEmpty(theValue);
         } else {
-            // TODO: implement addFront
             Node temp = new Node(theValue, HEAD);
             HEAD = temp;
             COUNT++;
@@ -47,7 +46,6 @@ public class SLL<T> {
         if (isEmpty()) {
             addEmpty(theValue);
         } else {
-            // TODO: implement addRear
             Node temp = new Node(theValue, null);
             REAR.NEXT = temp;
             REAR = temp;

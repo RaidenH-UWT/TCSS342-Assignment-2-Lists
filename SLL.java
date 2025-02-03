@@ -114,6 +114,10 @@ public class SLL<T> {
         }
     }
 
+    public int size() {
+        return COUNT;
+    }    
+
     @Override
     public String toString() {
         Node current = HEAD;

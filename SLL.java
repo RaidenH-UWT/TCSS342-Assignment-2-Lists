@@ -118,6 +118,28 @@ public class SLL<T> {
         return COUNT;
     }    
 
+    public void swap(int indexA, int indexB) {
+        Node temp = HEAD;
+        Node A = HEAD;
+        Node B = HEAD;
+
+        // set A to the Node before indexA
+        for (int i = 0; i < indexA; i++) {
+            A = A.NEXT;
+        }
+        // temp is our target in indexA
+        temp = A.NEXT;
+        // set B to the Node before indexB
+        for (int i = 0; i < indexB; i++) {
+            B = B.NEXT;
+        }
+
+        // shuffle it all around
+        temp.NEXT = B.NEXT.NEXT;
+        A.NEXT = B.NEXT;
+        B.NEXT = temp;
+    }
+
     @Override
     public String toString() {
         Node current = HEAD;

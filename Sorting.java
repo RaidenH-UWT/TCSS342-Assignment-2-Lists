@@ -85,8 +85,9 @@ public class Sorting {
     }
 
     private static SLL<Integer> swap(SLL<Integer> theList, int indexA, int indexB) {
-        // ah fuck this is gonna suck
-        return null;
+        // with a private Node class I can't create a temporary variable, so i don't
+        // think I can implement this method in here.
+        return theList;
     }
 
     /**

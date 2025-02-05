@@ -16,6 +16,7 @@ public class Sorting {
      * @return New ArrayList now sorted
      */
     public static SLL<Integer> shellSort(SLL<Integer> theInput, String theName) {
+        System.out.println("Sorting " + theName + " of size " + theInput.size());
         writeRow("\n" + theName);
         writeRow("       k          pass          comp          exch");
         writeRow("---------------------------------------------------");
@@ -25,6 +26,7 @@ public class Sorting {
         for (int i = intervals.length - 1; intervals[gap] > theInput.size(); i--) {
             gap = i;
         }
+        // counter for total statistics
         int[] totals = {0, 0, 0};
         
         while (true) {
@@ -33,14 +35,15 @@ public class Sorting {
             
             // I'm not 100% sure this is correctly implemented ShellSort, but it does sort
             int current = 0;
-            while (current + intervals[gap] < theInput.size()) {
+            while (current + intervals[gap] < theInput.size() - 1) {
+                System.out.println("While again " + current);
                 statistics[0]++;
                 statistics[1]++;
 
                 if (theInput.get(current).compareTo(theInput.get(current + intervals[gap])) > 0) {
                     statistics[1]++;
                     statistics[2]++;
-                    theInput = swap(theInput, current, current + intervals[gap]);
+                    theInput.swap(current, current + intervals[gap]);
                 }
                 current++;
             }
@@ -51,12 +54,12 @@ public class Sorting {
                 while (!sorted) {
                     statistics[0]++;
                     sorted = true;
-                    for (int i = 0; i < theInput.size() - 1; i++) {
+                    for (int i = 0; i < theInput.size() - 2; i++) {
                         statistics[1]++;
                         if (theInput.get(i).compareTo(theInput.get(i + 1)) > 0) {
                             statistics[1]++;
                             statistics[2]++;
-                            theInput = swap(theInput, i, i + 1);
+                            theInput.swap(i, i + 1);
                             sorted = false;
                         }
                     }
@@ -84,11 +87,10 @@ public class Sorting {
         return theInput;
     }
 
-    private static SLL<Integer> swap(SLL<Integer> theList, int indexA, int indexB) {
-        // with a private Node class I can't create a temporary variable, so i don't
-        // think I can implement this method in here.
-        return theList;
-    }
+    // NOTE: Replaced by the SLL.swap() method, used because of the private Node class.
+    // private static SLL<Integer> swap(SLL<Integer> theList, int indexA, int indexB) {
+    //     return theList;
+    // }
 
     /**
      * This method writes a line to the output file, each call on a new line

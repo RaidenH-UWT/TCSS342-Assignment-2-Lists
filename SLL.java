@@ -73,7 +73,7 @@ public class SLL<T> {
         } else {
             Node current = HEAD;
             // Get to the node just before our target position
-            for (int i = 0; i < theIndex; i++) {
+            for (int i = 0; i < theIndex - 1; i++) {
                 current = current.NEXT;
             }
             Node temp = new Node(theValue, current.NEXT);
@@ -102,12 +102,12 @@ public class SLL<T> {
 
     public T get(int theIndex) {
         // check that the index is within our list size
-        if (theIndex > COUNT) {
+        if (theIndex >= COUNT) {
             throw new IndexOutOfBoundsException("Index " + theIndex + " out of bounds for length " + COUNT);
         } else {
             // find the target node and return it's value
             Node current = HEAD;
-            for (int i = 0; i <= theIndex; i++) {
+            for (int i = 0; i < theIndex; i++) {
                 current = current.NEXT;
             }
             return current.VALUE;
@@ -119,32 +119,61 @@ public class SLL<T> {
     }    
 
     public void swap(int indexA, int indexB) {
-        Node temp = HEAD;
-        Node A = HEAD;
-        Node B = HEAD;
+        if (indexA == indexB) {
+            return;
+        } else if (indexA > COUNT || indexB > COUNT) {
+            throw new IndexOutOfBoundsException("Index " + indexA + ", " + indexB + " out of bounds for length " + COUNT);
+        } else if (indexA == 0 || indexB == 0) {
+            // TODO: Special case for index 0
+        } else {
+            Node A;
+            Node B;
+            Node temp;
+            Node prevA = HEAD;
+            Node prevB = HEAD;
+            for (int i = 0; i < Math.max(indexA, indexB); i++) {
+                if (i < indexA - 1) {
+                    prevA = prevA.NEXT;
+                } else if (i < indexB - 1) {
+                    prevB = prevB.NEXT;
+                }
+            }
+            A = prevA.NEXT;
+            temp = A.NEXT;
+            B = prevB.NEXT;
 
-        // set A to the Node before indexA
-        for (int i = 0; i < indexA; i++) {
-            A = A.NEXT;
+            System.out.println("\nShuffling! " + prevA + ", " + prevB + ", " + A + ", " + B);
+            // shuffle it all around
+            /*
+            * 18->79->46->75->99
+            * A0  t1  B2  t3   4
+            * 
+            * 18->75
+            * 75->46
+            * 79->99
+            * 46->79
+            */
+            // this is wrong
+            delete(indexA - 1);
+            print(toString());
+            delete(indexB - 2);
+            print(toString());
+            insert(A.VALUE, indexB - 1);
+            print(toString());
+            insert(B.VALUE, indexA);
+            print(toString());
         }
-        // temp is our target in indexA
-        temp = A.NEXT;
-        // set B to the Node before indexB
-        for (int i = 0; i < indexB; i++) {
-            B = B.NEXT;
-        }
+    }
 
-        // shuffle it all around
-        temp.NEXT = B.NEXT.NEXT;
-        A.NEXT = B.NEXT;
-        B.NEXT = temp;
+    private void print(Object a) {
+        System.out.println(a);
     }
 
     @Override
     public String toString() {
         Node current = HEAD;
         String out = "[" + HEAD.VALUE;
-        for (int i = 0; i <= COUNT; i++) {
+        while (current.NEXT != null) {
             current = current.NEXT;
             out += ", " + current.VALUE;
         }
@@ -160,6 +189,11 @@ public class SLL<T> {
             super();
             VALUE = theData;
             NEXT = theNext;
+        }
+
+        @Override
+        public String toString() {
+            return VALUE.toString();
         }
     }
 }

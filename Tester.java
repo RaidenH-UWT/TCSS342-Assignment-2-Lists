@@ -24,9 +24,6 @@ public class Tester {
         FILENAME = theFileName;
 
         DATA = readValues();
-        System.out.println(DATA);
-        DATA.swap(1, 3);
-        System.out.println(DATA);
 
         long startTime = System.currentTimeMillis();
         SORTEDDATA = resultShellSort();
@@ -110,27 +107,27 @@ public class Tester {
      */
     public static void main(String[] args) {
         // All our input files
-        // Tester inputOrdered100 = new Tester("./input/inorder100.txt");
-        // Tester inputOrdered1000 = new Tester("./input/inorder1000.txt");
-        // Tester inputOrdered10000 = new Tester("./input/inorder10000.txt");
+        Tester inputOrdered100 = new Tester("./input/inorder100.txt");
+        Tester inputOrdered1000 = new Tester("./input/inorder1000.txt");
+        Tester inputOrdered10000 = new Tester("./input/inorder10000.txt");
         Tester inputRandom10 = new Tester("./input/random10.txt");
-        // Tester inputRandom100 = new Tester("./input/random100.txt");
-        // Tester inputRandom1000 = new Tester("./input/random1000.txt");
-        // Tester inputRandom10000 = new Tester("./input/random10000.txt");
-        // Tester inputReverse100 = new Tester("./input/reverse100.txt");
-        // Tester inputReverse1000 = new Tester("./input/reverse1000.txt");
-        // Tester inputReverse10000 = new Tester("./input/reverse10000.txt");
+        Tester inputRandom100 = new Tester("./input/random100.txt");
+        Tester inputRandom1000 = new Tester("./input/random1000.txt");
+        Tester inputRandom10000 = new Tester("./input/random10000.txt");
+        Tester inputReverse100 = new Tester("./input/reverse100.txt");
+        Tester inputReverse1000 = new Tester("./input/reverse1000.txt");
+        Tester inputReverse10000 = new Tester("./input/reverse10000.txt");
 
         // // Console output for all the files
-        // inputOrdered100.displayResult();
-        // inputOrdered1000.displayResult();
-        // inputOrdered10000.displayResult();
-        // inputRandom10.displayResult();
-        // inputRandom100.displayResult();
-        // inputRandom1000.displayResult();
-        // inputRandom10000.displayResult();
-        // inputReverse100.displayResult();
-        // inputReverse1000.displayResult();
-        // inputReverse10000.displayResult();
+        inputOrdered100.displayResult();
+        inputOrdered1000.displayResult();
+        inputOrdered10000.displayResult();
+        inputRandom10.displayResult();
+        inputRandom100.displayResult();
+        inputRandom1000.displayResult();
+        inputRandom10000.displayResult();
+        inputReverse100.displayResult();
+        inputReverse1000.displayResult();
+        inputReverse10000.displayResult();
     }
 }

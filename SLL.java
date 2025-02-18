@@ -1,4 +1,4 @@
-public class SLL<T> {
+public class SLL<T extends Comparable<T>> {
     private int COUNT;
     private Node HEAD;
     private Node REAR;
@@ -82,7 +82,7 @@ public class SLL<T> {
         }
     }
 
-    public T delete(int theIndex) {
+    public Comparable<T> delete(int theIndex) {
         // check that the index is within our list size
         if (theIndex > COUNT) {
             throw new IndexOutOfBoundsException("Index " + theIndex + " out of bounds for length " + COUNT);
@@ -100,7 +100,7 @@ public class SLL<T> {
         }
     }
 
-    public T get(int theIndex) {
+    public Comparable<T> get(int theIndex) {
         // check that the index is within our list size
         if (theIndex >= COUNT) {
             throw new IndexOutOfBoundsException("Index " + theIndex + " out of bounds for length " + COUNT);
@@ -119,50 +119,82 @@ public class SLL<T> {
     }    
 
     public void swap(int indexA, int indexB) {
+        // Make sure indexA is the smaller one
+        if (indexB < indexA) {
+            int temp = indexA;
+            indexA = indexB;
+            indexB = temp;
+        }
+
+        if (size() < 100) print("DEBUG: swapping " + indexA + " with " + indexB);
+
         if (indexA == indexB) {
             return;
         } else if (indexA > COUNT || indexB > COUNT) {
             throw new IndexOutOfBoundsException("Index " + indexA + ", " + indexB + " out of bounds for length " + COUNT);
-        } else if (indexA == 0 || indexB == 0) {
-            // TODO: Special case for index 0
+        } else if (indexA == 0 && indexB == 1) { // Case for adjacent + head
+            Node A = HEAD;
+            Node B = HEAD.NEXT;
+
+            A.NEXT = B.NEXT;
+            B.NEXT = A;
+            HEAD = B;
+        } else if (indexA == 0) { // case for head node
+            Node A = HEAD;
+            Node B = HEAD;
+            Node prevB;
+            for (int i = 0; i < indexB - 1; i++) {
+                B = B.NEXT;
+            }
+
+            prevB = B;
+            B = B.NEXT;
+
+            // 1>2>3>4>5
+            prevB.NEXT = B.NEXT; // 1>2>3>5 4>5
+            B.NEXT = A.NEXT; // 1>2>3>5 4>2
+            HEAD = B; // 4>2>3>5 1>2
+            A.NEXT = prevB.NEXT; // 4>2>3>5 1>5
+            prevB.NEXT = A; // 4>2>3>1>5
+        } else if (indexB - indexA == 1) { // case for adjacent nodes
+            Node A = HEAD;
+            Node B = HEAD;
+            Node prevA;
+            for (int i = 0; i < indexA - 1; i++) {
+                A = A.NEXT;
+            }
+            prevA = A;
+            A = A.NEXT;
+            B = A.NEXT;
+
+            // 1>2>3>4
+            prevA.NEXT = A.NEXT; // 1>3>4 2>3
+            A.NEXT = B.NEXT; // 1>3>4 2>4
+            B.NEXT = A; // 1>3>2>4
         } else {
             Node A;
             Node B;
-            Node temp;
             Node prevA = HEAD;
             Node prevB = HEAD;
-            for (int i = 0; i < Math.max(indexA, indexB); i++) {
+            for (int i = 0; i < indexB - 1; i++) {
                 if (i < indexA - 1) {
                     prevA = prevA.NEXT;
-                } else if (i < indexB - 1) {
-                    prevB = prevB.NEXT;
                 }
+                prevB = prevB.NEXT;
             }
             A = prevA.NEXT;
-            temp = A.NEXT;
             B = prevB.NEXT;
 
-            System.out.println("\nShuffling! " + prevA + ", " + prevB + ", " + A + ", " + B);
-            // shuffle it all around
-            /*
-            * 18->79->46->75->99
-            * A0  t1  B2  t3   4
-            * 
-            * 18->75
-            * 75->46
-            * 79->99
-            * 46->79
-            */
-            // this is wrong
-            delete(indexA - 1);
-            print(toString());
-            delete(indexB - 2);
-            print(toString());
-            insert(A.VALUE, indexB - 1);
-            print(toString());
-            insert(B.VALUE, indexA);
-            print(toString());
+            prevB.NEXT = B.NEXT; // 18->79->46->99 75-99
+            B.NEXT = A.NEXT; //  18->79->46->99 75->46
+
+            prevA.NEXT = A.NEXT; // 18->46->99 75-46 79->46
+            A.NEXT = prevB.NEXT; // 18->46->99 75-46 79->99
+
+            prevA.NEXT = B; // 18->75->46->99 79->99
+            prevB.NEXT = A; // 18->75->46->79->99
         }
+        if (size() < 100) print("Swapped: " + toString());
     }
 
     private void print(Object a) {
@@ -173,19 +205,22 @@ public class SLL<T> {
     public String toString() {
         Node current = HEAD;
         String out = "[" + HEAD.VALUE;
+        int i = 0;
         while (current.NEXT != null) {
             current = current.NEXT;
             out += ", " + current.VALUE;
+            if (i > 100) break;
+            i++;
         }
         out += "]";
         return out;
     }
 
     private class Node {
-        public T VALUE;
-        public Node NEXT;
+        public Comparable VALUE;
+        public Node NEXT = null;
 
-        private Node(T theData, Node theNext) {
+        private Node(Comparable theData, Node theNext) {
             super();
             VALUE = theData;
             NEXT = theNext;

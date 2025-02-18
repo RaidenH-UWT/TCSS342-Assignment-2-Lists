@@ -28,19 +28,22 @@ public class Sorting {
         }
         // counter for total statistics
         int[] totals = {0, 0, 0};
+        int[] statistics = {0, 0, 0};
         
         while (true) {
+            if (theInput.size() < 100) System.out.println("Statistics (pass, comp, exch): " + statistics[0] + ", " + statistics[1] + ", " + statistics[2]);
             // Statistics counters (pass, comp, exch)
-            int[] statistics = {0, 0, 0};
+            statistics[0] = 0;
+            statistics[1] = 0;
+            statistics[2] = 0;
             
             // I'm not 100% sure this is correctly implemented ShellSort, but it does sort
             int current = 0;
-            while (current + intervals[gap] < theInput.size() - 1) {
-                System.out.println("While again " + current);
+            while ((current + intervals[gap]) < (theInput.size() - 1)) {
                 statistics[0]++;
                 statistics[1]++;
 
-                if (theInput.get(current).compareTo(theInput.get(current + intervals[gap])) > 0) {
+                if (theInput.get(current).compareTo((Integer) theInput.get(current + intervals[gap])) > 0) {
                     statistics[1]++;
                     statistics[2]++;
                     theInput.swap(current, current + intervals[gap]);
@@ -50,16 +53,17 @@ public class Sorting {
 
             // Bubble sort if the gap is 1
             if (gap == 0) {
+                if (theInput.size() < 100) System.out.println("Bubblin' " + theInput);
                 boolean sorted = false;
                 while (!sorted) {
                     statistics[0]++;
                     sorted = true;
-                    for (int i = 0; i < theInput.size() - 2; i++) {
+                    for (int i = 0; i < theInput.size() - 1; i++) {
                         statistics[1]++;
-                        if (theInput.get(i).compareTo(theInput.get(i + 1)) > 0) {
+                        if (theInput.get(i).compareTo((Integer) theInput.get(i + 1)) > 0) {
                             statistics[1]++;
                             statistics[2]++;
-                            theInput.swap(i, i + 1);
+                            theInput.swap(i, i + 1); 
                             sorted = false;
                         }
                     }
